@@ -20,7 +20,7 @@ class UserRegistrationForm(forms.ModelForm):
             'class': "form-control",
             'placeholder': 'Email email'
         }
-    ))
+    ), )
     password = forms.CharField(max_length=128, widget=forms.PasswordInput(
         attrs={
             'class': "form-control",

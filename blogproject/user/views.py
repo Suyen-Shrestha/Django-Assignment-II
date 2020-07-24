@@ -19,7 +19,7 @@ class UserProfileView(TemplateView):
 class UserRegistrationView(CreateView):
     form_class = UserRegistrationForm
     template_name = 'user/signup.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('user:login')
 
     def form_valid(self, form):
         if 'profile_pic' in self.request.FILES:

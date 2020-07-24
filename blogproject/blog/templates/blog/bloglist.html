@@ -1,12 +1,32 @@
 {% extends 'base.html' %}
 
+{% block CSS %}
+<style>
+    .card-img-top{
+        height: 400px;
+        width: 400px;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<h1>Blogs List</h1>
-{% for blog in blogs %}
-<ul>
-    <li>{{blog.title}}</li>
-    <li>{{blog.author}}</li>
-</ul>
-{% endfor %}
+<h1>Recent Blogs</h1>
+<div class="card-deck">
+    {% for blog in blogs %}
+    <div class="card my-5 mx-3">
+        <img src="{{blog.image.url}}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">{{blog.title}}</h5>
+            <p class="card-text">{{blog.description}}</p>
+            <p class="card-text"><small class="text-muted">Posted at: {{blog.created_at}}</small></p>
+            {% if blog.author.email == request.user.email %}
+            <a href="{% url 'blog:blog-update' blog.pk %}" class="btn btn-primary">Update</a>
+            <a href="{% url 'blog:blog-delete' blog.pk %}" class="btn btn-primary">Delete</a>
+            {% endif %}
+            <a href="{% url 'blog:blog-detail' blog.pk %}" class="btn btn-primary">Read Full Post</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 
 {% endblock %}

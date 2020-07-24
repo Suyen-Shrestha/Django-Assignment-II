@@ -1,8 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import (ListView,
+                                CreateView,
+                                DetailView,
+                                UpdateView,
+                                DeleteView)
+
 from .models import BlogArticle
 from user.models import CustomUser
 from .forms import BlogCreateForm
@@ -12,6 +17,34 @@ class BlogsListView(ListView):
     queryset = BlogArticle.objects.all()
     template_name = 'blog/bloglist.html'
     context_object_name = 'blogs'
+
+
+class BlogDetailView(DetailView):
+    queryset = BlogArticle.objects.all()
+    template_name = 'blog/blogdetail.html'
+    context_object_name = 'blog'
+
+
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
+    model = BlogArticle
+    fields = ['title', 'description', 'image']
+    template_name = 'blog/blogupdate.html'
+
+    def get_queryset(self):
+        queryset = super(BlogUpdateView, self).get_queryset()
+        try:
+            queryset = queryset.filter(author=self.request.user)
+        except queryset.DoesNotExist:
+            raise Http404('Permission Denied for Update!')
+        return queryset
+
+
+class BlogDeleteView(DeleteView):
+    queryset = BlogArticle.objects.all()
+    template_name = 'blog/blogdelete.html'
+    context_object_name = 'blog'
+    success_url = reverse_lazy('blog:blog-list')
+
 
 
 class BlogCreateView(LoginRequiredMixin, CreateView):

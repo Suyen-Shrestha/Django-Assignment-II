@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="flex-container">
+    <div class="article-detail">
+        <img src="{{blog.image.url}}" height="500px" width="500px" alt="" class="article-img">
+        <h1 class="article-heading">{{ blog.title }}</h1>
+        <span class="author">Author:</span><h3 class="author-name">{{ blog.author }}</h3>
+        <p class="posted-date">Posted Date: {{ blog.created_at }}</p>
+        <p class="updated-date">Updated Date: {{ blog.updated_at }}</p>
+        <article class="description">
+            {{ blog.description }}
+        </article>
+    </div>
+
+    <div class="author-details">
+        <h3>Athor Details:</h3>
+        <img src="{{blog.author.profile_pic.url}}" height="300px" width="300px" alt="" class="author-profile-pic">
+        <hr/>
+        <h4 class="author-firstname">First Name: {{ blog.author.first_name }}</h4>
+        <h4 class="author-firstname">Last Name: {{ blog.author.last_name }}</h4>
+        <h4 class="author-firstname">Email: {{ blog.author.email }}</h4>
+    </div>
+
+</div>
+
+{% endblock %}

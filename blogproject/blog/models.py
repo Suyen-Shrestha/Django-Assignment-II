@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from user.models import CustomUser
 
 
@@ -12,3 +13,6 @@ class BlogArticle(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('blog:blog-detail', kwargs={'pk': self.pk})
