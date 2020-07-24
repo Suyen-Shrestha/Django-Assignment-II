@@ -1,2 +1,15 @@
 {% extends 'base.html' %}
 
+
+{% block content %}
+
+{% for message in messages %}
+	<div class="alert alert-{% if messages.tags == error %}danger{% else %}success{% endif %}" id="messages">
+        {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+    </div>
+{% endfor %}
+
+{% endblock %}
